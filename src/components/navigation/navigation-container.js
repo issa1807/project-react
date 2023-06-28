@@ -1,4 +1,5 @@
 import React from 'react';
+import axios from 'axios';
 import {
     BrowserRouter as Router,
     Route,
@@ -14,12 +15,22 @@ import {
       <NavLink to="/blog" activeClassName="nav-link-active">blog
       </NavLink> 
     </div>
-    )
-  }
-  
-  
+    );
+  };
    
-    return (
+    const handleSignOut = () => {
+      axios.delete("https://api.devcamp.space/logout", {withCredentials:true}).then(response => {
+        if (response.status === 200) {
+          props.history.push("/");
+          props.handleSuccessfulLogout();
+        }
+        return response.data;
+      }).catch(error => {
+        console.log("Error singning out",error );
+      })
+    }
+
+     return (
       <div className="nav-wrapper">
         <div className="left-side">
           <div className="nav-link-wrapper">
@@ -42,6 +53,9 @@ import {
 
         <div className="right-side">
           Isabella Perez 
+          {props.loggedInStatus === 'LOGGED_IN' ? ( 
+          <a onClick={handleSignOut}>Sing Out</a>
+          ) : null}
         </div>
       </div>
     )

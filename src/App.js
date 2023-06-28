@@ -30,6 +30,7 @@ constructor(props) {
 
   this. handleSuccessfulLogin = this.handleSuccessfulLogin.bind(this);
   this. handleUnsuccessfulLogin = this.handleUnsuccessfulLogin.bind(this);
+  this.handleSuccessfulLogout = this.handleSuccessfulLogout.bind(this);
 }
    
   handleUnsuccessfulLogin() {
@@ -43,6 +44,12 @@ constructor(props) {
       loggedInStatus: "NOT_LOGGED_IN"
     })
   }
+
+   handleSuccessfulLogout() {
+    this.setState({
+    loggedInStatus: "NOT_LOGGED_IN"
+  })
+   }
 
   checkLoginStatus() {
     return axios
@@ -79,12 +86,14 @@ constructor(props) {
   componentDidMount() {
     this.checkLoginStatus();
   }
-
+  authorizedPages() {
+     return [
+      <Route path="/blog" element={<Blog/>}/>];
+  }
 
 
 render() {
-  
-return (
+  return (
     <div className="container">
       <Router>
         <div>
@@ -92,7 +101,10 @@ return (
      <div>
       {moment().format('MMMM Do YYYY, h:mm:ss a')}
      </div>
-          <NavigationContainer loggedInStatus={this.state.loggedInStatus} />
+          <NavigationContainer 
+            loggedInStatus={this.state.loggedInStatus}
+            handleSuccessfulLogout={this.handleSuccessfulLogout}
+            />
 
           <h2>{this.state.loggedInStatus}</h2>
           <Routes>
@@ -110,7 +122,9 @@ return (
 
             <Route path="/about-me" element={<About/>}/>
             <Route path="/contact" element={<Contact/>}/>
-            <Route path="/blog" element={<Blog/>}/>
+            {this.state.loggedInStatus === "LOGGED_IN" ? (
+            this.authorizedPages() 
+            ) : null }
             <Route exact="/portfolio/:slug" element={<PortfolioDetail/>}/>
             <Route component={PortfolioDetail}/>
           </Routes>
