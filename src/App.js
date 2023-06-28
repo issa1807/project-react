@@ -92,7 +92,7 @@ return (
      <div>
       {moment().format('MMMM Do YYYY, h:mm:ss a')}
      </div>
-          <NavigationContainer />
+          <NavigationContainer loggedInStatus={this.state.loggedInStatus} />
 
           <h2>{this.state.loggedInStatus}</h2>
           <Routes>

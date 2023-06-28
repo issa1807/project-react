@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import {
     BrowserRouter as Router,
     Route,
@@ -7,14 +7,18 @@ import {
   } from 'react-router-dom';
 
 
-export default class NavigationComponent extends Component {
-    constructor() {
-    super();
-}
-
-
-
-  render() {
+ const NavigationComponent = (props) => {
+  const dynamicLink = (route, linkText) => {
+    return (
+      <div className="nav-link-wrapper">
+      <NavLink to="/blog" activeClassName="nav-link-active">blog
+      </NavLink> 
+    </div>
+    )
+  }
+  
+  
+   
     return (
       <div className="nav-wrapper">
         <div className="left-side">
@@ -30,10 +34,10 @@ export default class NavigationComponent extends Component {
             <NavLink to="/contact" activeClassName="nav-link-active">Contact
             </NavLink> 
             </div>
-            <div className="nav-link-wrapper">
-            <NavLink to="/blog" activeClassName="nav-link-active">blog
-            </NavLink> 
-            </div>
+           
+            {props. loggedInStatus === "LOGGED_IN" ? (
+            dynamicLink("/blog", "Blog")
+            ) : null}
         </div>
 
         <div className="right-side">
@@ -42,4 +46,4 @@ export default class NavigationComponent extends Component {
       </div>
     )
   }
-}
+ export default NavigationComponent;
