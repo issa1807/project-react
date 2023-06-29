@@ -26,7 +26,7 @@ export default class PortfolioManager extends Component {
     }
     
   getPortfolioItems() {
-    axios.get("https://issabella.devcamp.space/portfolio/portfolio_items", {
+    axios.get("https://issabella.devcamp.space/portfolio/portfolio_items?order by=created at&direction=desc", {
         withCredentials: true
     }).then(response => {
        this.setState({

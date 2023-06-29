@@ -97,15 +97,11 @@ constructor(props) {
 render() {
   return (
     <div className="container">
-      <Router>
-        <div>
-        <h1>Isabella Perez Portfolio</h1>
-     <div>
-      {moment().format('MMMM Do YYYY, h:mm:ss a')}
-     </div>
-          <NavigationContainer 
-            loggedInStatus={this.state.loggedInStatus}
-            handleSuccessfulLogout={this.handleSuccessfulLogout}
+        <Router>
+          <div>
+            <NavigationContainer
+              loggedInStatus={this.state.loggedInStatus}
+              handleSuccessfulLogout={this.handleSuccessfulLogout}
             />
 
           <Routes>
