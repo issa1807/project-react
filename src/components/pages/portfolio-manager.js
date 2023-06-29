@@ -16,9 +16,9 @@ export default class PortfolioManager extends Component {
     }
 
     handleSuccessfulFormSubmission(portfolioItem) {
-        // TODO
-        // update the portfolioitem state 
-        // and add the portfolioItem to the list
+       this.setState({
+        portfolioItems: [portfolioItem].concat(this.state.portfolioItem)
+       })
     }
 
     handleFormSubmissionError(error) {
@@ -45,7 +45,7 @@ export default class PortfolioManager extends Component {
     return (
     <div className="portfolio-manager-wrapper">
         <div className="left-column">
-           <portfolioForm 
+           <PortfolioForm 
            handleSuccessfulFormSubmission={this.handleSuccessfulFormSubmission}
            handleFormSubmissionError={this.handleFormSubmissionError}
            />

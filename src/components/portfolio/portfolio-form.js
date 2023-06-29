@@ -7,7 +7,7 @@ export default class PortfolioForm extends Component {
         this.state = {
             name: "",
             description: "",
-            category: "",
+            category: "eCommerce",
             position: "",
             url: "",
             thumb_image: "",
@@ -42,7 +42,9 @@ export default class PortfolioForm extends Component {
       axios.post("https://issabella.devcamp.space/portfolio/portfolio_items", 
       this.buildForm(), 
       {withCredentials: true}
-      ).then(response => {
+      )
+      .then(response => {
+        this.props.handleSuccessfulFormSubmission(response.data.portfolio_item);
          console.log("response", response);
       }).catch(error => {
         console.log("portfolio form handleSubmit error", error);
@@ -87,16 +89,18 @@ export default class PortfolioForm extends Component {
             value={this.state.position}
             onChange={this.handleChange}
             />
-            <input 
+            <select
             type="text"
-            name="category"
-            placeholder="Category"
             value={this.state.category}
             onChange={this.handleChange}
-            />
+            >
+             <option value="eCommerce">eCommerce</option>
+             <option value="Sheduling">Sheduling</option>
+             <option value="Enterprice">Enterprice</option>
+            </select>
         </div> 
         <div>
-        <input 
+        <textarea
             type="text"
             name="description"
             placeholder="Description"

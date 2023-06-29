@@ -89,7 +89,7 @@ constructor(props) {
   }
   authorizedPages() {
      return [
-      <Route key="port-manager" path="/portfolio-manager" component={PortfolioManager}/>
+      <Route key="port-manager" path="/portfolio-manager" element={<PortfolioManager/>}/>
       ];
   }
 
