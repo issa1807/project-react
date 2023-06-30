@@ -1,29 +1,33 @@
 import "./style/main.scss";
 import React, { Component } from "react";
-import './App.css';
-import moment from 'moment';
-import {
-  BrowserRouter as Router,
-  Route,
-  Link,
-  Routes,
-  NavLink
-} from 'react-router-dom';
+import React, { useEffect, useState } from "react";
+
+import { HashRouter as Router, Route, Routes } from 'react-router-dom';
 import axios from 'axios';
+
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faTrash, faSignOutAlt, faEdit, faSpinner, faPlusCircle } from "@fortawesome/free-solid-svg-icons";
+
+
 import NavigationContainer from "./components/navigation/navigation-container";
 import Home from "./components/pages/home";
 import About from "./components/pages/about";
 import Contact from "./components/pages/contact";
 import Blog from "./components/pages/blog";
+import BlogDetail from "./components/pages/blog-detail";
 import PortfolioManager from "./components/pages/portfolio-manager";
 import PortfolioDetail from "./components/portfolio/portfolio-detail";
 import Auth from "./components/pages/auth";
 import NoMatch from "./components/pages/no-match";
+import Icons from "../src/helpers/icons";
+
+
 export default class App extends Component {
   
 constructor(props) {
   super(props);
 
+  Icons();
 
   this.state = {
     loggedInStatus: "NOT_LOGGED_IN"
@@ -89,7 +93,7 @@ constructor(props) {
   }
   authorizedPages() {
      return [
-      <Route key="port-manager" path="/portfolio-manager" element={<PortfolioManager/>}/>
+      <Route key="portfolio-manager" path="/portfolio-manager" element={<PortfolioManager/>}/>
       ];
   }
 
@@ -119,12 +123,22 @@ render() {
 
             <Route path="/about-me" element={<About/>}/>
             <Route path="/contact" element={<Contact/>}/>
-            <Route path="/blog" element={<Blog/>}/>
+
+            <Route
+              path="/blog" 
+              element={
+                <BlogDetail
+                loggedInStatus={loggedInStatus}
+              />
+              }
+            />
+            <Route path="/b/:slug" element={<BlogDetail/>}/>
             {this.state.loggedInStatus === "LOGGED_IN" ? (
             this.authorizedPages() 
             ) : null }
-            <Route exact="/portfolio/:slug" element={<PortfolioDetail/>}/>
-            <Route component={PortfolioDetail}/>
+            <Route exact path="/portfolio/:slug" element={<PortfolioDetail />} /> 
+            {loggedInStatus === "LOGGED_IN" ? authorizedPages() : null}
+            <Route path="/:slug" element={<NoMatch />} />
           </Routes>
         </div>
       </Router>
