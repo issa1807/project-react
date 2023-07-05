@@ -1,6 +1,7 @@
+
 import "./style/main.scss";
 import React, { Component } from "react";
-import React, { useEffect, useState } from "react";
+
 
 import { HashRouter as Router, Route, Routes } from 'react-router-dom';
 import axios from 'axios';
@@ -98,54 +99,59 @@ constructor(props) {
   }
 
 
-render() {
-  return (
-    <div className="container">
+ render() {
+    return (
+      <div className="container">
         <Router>
           <div>
             <NavigationContainer
               loggedInStatus={this.state.loggedInStatus}
               handleSuccessfulLogout={this.handleSuccessfulLogout}
             />
-
-          <Routes>
-            <Route exact path="/" element={<Home/>}/>
-
-            <Route 
-              path="/auth"
-              element={
-                <Auth
-                  handleSuccessfulLogin={this.handleSuccessfulLogin}
-                  handleUnsuccessfulLogin={this.handleUnsuccessfulLogin}
-                />
-              }
-            />
-
-            <Route path="/about-me" element={<About/>}/>
-            <Route path="/contact" element={<Contact/>}/>
-
-            <Route
-              path="/blog" 
-              element={
-                <BlogDetail
-                loggedInStatus={loggedInStatus}
+  
+            <h2>{this.state.loggedInStatus}</h2>
+  
+            <Routes>
+              <Route exact path="/" element={<Home />} />
+              <Route
+                path="/auth"
+                element={
+                  <Auth
+                    {...this.props}
+                    handleSuccessfulLogin={this.handleSuccessfulLogin}
+                    handleUnsuccessfulLogin={this.handleUnsuccessfulLogin}
+                    history={this.props.history}
+                  />
+                }
               />
-              }
-            />
-            <Route path="/b/:slug" element={<BlogDetail/>}/>
-            {this.state.loggedInStatus === "LOGGED_IN" ? (
-            this.authorizedPages() 
-            ) : null }
-            <Route exact path="/portfolio/:slug" element={<PortfolioDetail />} /> 
-            {loggedInStatus === "LOGGED_IN" ? authorizedPages() : null}
-            <Route path="/:slug" element={<NoMatch />} />
-          </Routes>
-        </div>
-      </Router>
-    
-    
-    </div>
-  );
-}
+              <Route path="/about-me" element={<About />} />
+              <Route path="/contact" element={<Contact />} />
 
-}
+              <Route
+                path="/blog"
+                render={props => (
+                  <Blog {...props} loggedInStatus={this.state.loggedInStatus} />
+                )}
+              />
+
+
+              <Route path="/b/:slug" element={BlogDetail} />
+              {this.state.loggedInStatus === "LOGGED_IN" ? (
+                this.authorizedPages()
+              ) : null}
+              <Route
+                exact
+                path="/portfolio/:slug"
+                element={PortfolioDetail}
+              />
+
+                    {this.state.loggedInStatus === "LOGGED_IN" ? this.authorizedPages() : null}
+                    <Route exact path="/portfolio/:slug" element={<PortfolioDetail/>} />
+                    { <Route path="/:slug" element={<NoMatch />} /> }
+                  </Routes>
+                </div>
+              </Router>
+            </div>
+          );
+        }
+      }  
